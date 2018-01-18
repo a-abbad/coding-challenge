@@ -1,0 +1,30 @@
+{
+  "name": "back-end",
+  "version": "0.0.1",
+  "description": "this is a http server that provides an API to be consumed by a client (web app/mobile app)",
+  "homepage": "",
+  "author": {
+    "name": "A.Abdellwahed",
+    "email": "abdellwahed.abbad@gmail.com",
+    "url": ""
+  },
+  "files": [
+    "lib"
+  ],
+  "keywords": [
+    ""
+  ],
+  "repository": "https://github.com/a-abbad/coding-challenge",
+  "scripts": {
+    "start": "node bin"
+  },
+  "private": true,
+  "dependencies": {
+    "body-parser": "^1.18.2",
+    "express": "^4.14.1",
+    "jsonwebtoken": "^7.2.1",
+    "mongoose": "^4.8.1",
+    "mongoose-auto-increment": "^5.0.1",
+    "morgan": "^1.9.0"
+  }
+}
