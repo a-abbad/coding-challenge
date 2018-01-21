@@ -1,28 +1,34 @@
 import React, { Component } from 'react';
-import {ConnectedRouter} from 'react-router-redux'
-import createHistory from 'history/createBrowserHistory'
-import { Route } from 'react-router'
+import { HashRouter as Router, Route, Switch } from 'react-router-dom';
 
-import Home from '../home';
-import Login from '../login';
 import PrivateRoute from '../misc/PrivateRoute';
-
-const history = createHistory();
+import Header from '../../components/header/Header';
+import NearbyShops from '../nearby-shops';
+import PreferredShops from '../preferred-shops';
+import LogIn from '../log-in';
+import SignUp from '../sign-up';
+import NotFound from '../misc/NotFound';
 
 export default class App extends Component {
     render() {
         return (
-            <ConnectedRouter history={history}>
+            <Router>
                 <div>
-                    <Route exact path="/" component={Home}/>
-                    <Route exact path="/login" component={Login}/>
-                    <PrivateRoute
-                        path="/profile"
+                    <Header
+                        user={this.props.user}
                         isAuthenticated={this.props.isAuthenticated}
-                        component={Home}
+                        handleLogout={() => {this.props.handleLogout()}}
                     />
+                    <Switch>
+                        <Route exact path='/' component={NearbyShops} />
+                        <Route path='/nearby-shops' component={NearbyShops} />
+                        <PrivateRoute path='/preferred-shops' component={PreferredShops} isAuthenticated={this.props.isAuthenticated} />
+                        <Route path='/log-in' component={LogIn} />
+                        <Route path='/sign-up' component={SignUp} />
+                        <Route component={NotFound} />
+                    </Switch>
                 </div>
-            </ConnectedRouter>
+            </Router>
         );
     }
 }
