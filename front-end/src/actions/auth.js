@@ -1,6 +1,6 @@
 import {CHANGE_PASSWORD_INPUT, CHANGE_USERNAME_INPUT, LOGIN, LOGOUT} from "./types";
 import {callApi, ID_TOKEN, decodeUserProfile} from "../utils/api-utils";
-import {getData, removeData, setData} from '../utils/storage-utils'
+import {removeData, setData} from '../utils/storage-utils'
 import {REQUEST, SUCCESS, FAILURE} from "../utils/utils";
 
 export function changeUsername(usernameInput) {
@@ -17,10 +17,9 @@ export function changePassword(passwordInput) {
     }
 }
 
-function loginRequest(user) {
+function loginRequest() {
     return {
-        type: REQUEST(LOGIN),
-        user
+        type: REQUEST(LOGIN)
     };
 }
 
@@ -30,8 +29,7 @@ function loginSuccess(payload) {
     const profile = decodeUserProfile(idToken);
     return {
         type: SUCCESS(LOGIN),
-        user: profile.user,
-        role: profile.role
+        user: profile.user
     };
 }
 
@@ -43,70 +41,62 @@ function loginFailure(error) {
     };
 }
 
-export function login(user, password) {
+export function login(email, password) {
     const config = {
-        method: "post",
+        method: 'POST',
         headers: {
             Accept: "application/json",
             "Content-Type": "application/json"
         },
         body: JSON.stringify({
-            user,
+            email,
             password
         })
     };
 
     return callApi(
-        "/api/login",
+        "/api/log-in",
         config,
-        loginRequest(user),
+        loginRequest,
         loginSuccess,
         loginFailure
     );
 }
 
-function logoutRequest(user) {
+export function logout() {
     removeData(ID_TOKEN);
     return {
-        type: REQUEST(LOGOUT),
-        user
+        type: LOGOUT
     };
 }
 
-function logoutSuccess(payload) {
-    removeData(ID_TOKEN);
-    return {
-        type: SUCCESS(LOGOUT),
-        user: payload.user
-    };
+function signUpRequest() {
+
 }
 
-function logoutFailure(error) {
-    return {
-        type: FAILURE(LOGOUT),
-        error
-    };
+function signUpSuccess(payload) {
+
 }
 
-export function logout(user) {
-    const idToken = getData(ID_TOKEN);
+function signUpFailure(error) {
+
+}
+
+export function signUp(data) {
     const config = {
-        method: "post",
+        method: 'POST',
         headers: {
             Accept: "application/json",
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${idToken}`
+            "Content-Type": "application/json"
         },
-        body: JSON.stringify({
-            user
-        })
+        body: JSON.stringify(data)
     };
 
     return callApi(
-        "/api/logout",
+        "/api/sign-up",
         config,
-        logoutRequest,
-        logoutSuccess,
-        logoutFailure
+        signUpRequest,
+        signUpSuccess,
+        signUpFailure
     );
 }

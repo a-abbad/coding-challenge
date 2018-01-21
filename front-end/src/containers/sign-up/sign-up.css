@@ -1,0 +1,21 @@
+body {
+    background-color: #ECF0F1;
+}
+
+.sign-up-form {
+    margin-top: 25px;
+}
+
+body > div,
+body > div > div,
+body > div > div > div.sign-up-form {
+    height: 100%;
+}
+
+.sign-up-form > .main-grid {
+    height: 100%;
+}
+
+.sign-up-form > .main-grid > .grid-column{
+    max-width: 450px;
+}
