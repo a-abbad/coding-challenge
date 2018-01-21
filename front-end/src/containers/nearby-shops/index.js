@@ -1,11 +1,11 @@
 import {connect} from 'react-redux';
-import Home from './Home';
+import NearbyShops from './NearbyShops';
 
 const mapStateToProps = (state, ownProps) => {
     console.log(state)
     console.log(ownProps)
     return {}
-}
+};
 
 const mapDispatchToProps = (dispatch, router) => ({
     onTest : () => {
@@ -13,4 +13,4 @@ const mapDispatchToProps = (dispatch, router) => ({
     }
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(Home)
+export default connect(mapStateToProps, mapDispatchToProps)(NearbyShops)

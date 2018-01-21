@@ -1,14 +1,16 @@
 import {connect} from 'react-redux';
 
-import Login from './Login';
+import Login from './LogIn';
 import {changePassword, changeUsername, login} from '../../actions/auth';
 
 function mapStateToProps({auth}) {
+    const isAuthenticated = true && auth.user;
     return {
         username: auth.usernameInput,
         password: auth.passwordInput,
         loggingIn: auth.loggingIn,
-        loginError: auth.loginError
+        loginError: auth.loginError,
+        isAuthenticated
     }
 }
 
@@ -22,7 +24,6 @@ function mapDispatchToProps(dispatch) {
         },
         onLogin : (username, password) => {
             dispatch(login(username, password));
-            console.log(username, password);
         }
     }
 }

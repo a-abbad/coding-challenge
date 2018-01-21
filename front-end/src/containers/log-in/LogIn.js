@@ -1,9 +1,11 @@
-import React, { Component } from 'react';
-import {Button, Form, Grid, Header, Message, Segment} from 'semantic-ui-react'
+import React, { Component } from 'react'
+import {Button, Form, Grid, Header, Message, Segment, Dimmer, Loader} from 'semantic-ui-react'
+import { Link } from 'react-router-dom'
+import { Redirect } from 'react-router'
 
-import './login.css'
+import './log-in.css'
 
-export default class Login extends Component {
+export default class LogIn extends Component {
     render() {
         return (
             <div className='login-form'>
@@ -19,7 +21,7 @@ export default class Login extends Component {
                                 warning
                                 icon='lock'
                                 header='Login failed!'
-                                content='You might have misspelled your username or password!'
+                                content={this.props.loginError.message}
                             />
                         }
                         <Header as='h2' color='blue' textAlign='center'>
@@ -55,10 +57,22 @@ export default class Login extends Component {
                             </Segment>
                         </Form>
                         <Message>
-                            New to us? <a href='/login'>Sign Up</a>
+                            New to us? <Link to='/sign-up'>Sign up</Link>
                         </Message>
                     </Grid.Column>
                 </Grid>
+                {
+                    this.props.isAuthenticated &&
+                    <Redirect
+                        to={{
+                            pathname: "/nearby-shops",
+                            state: { from: this.props.location }
+                        }}
+                    />
+                }
+                <Dimmer active={this.props.loggingIn}>
+                    <Loader />
+                </Dimmer>
             </div>
         );
     }
