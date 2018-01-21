@@ -8,7 +8,7 @@ class Header extends Component {
     onLogoutClick = event => {
         event.preventDefault();
         this.props.handleLogout();
-        this.props.history.replace('/login');
+        this.props.history.replace('/log-in');
     };
 
     render() {
@@ -16,20 +16,24 @@ class Header extends Component {
 
         const isHomePage = pathname === '/nearby-shops' || pathname === '/';
         const isProfilePage = pathname === '/preferred-shops';
-        const isLoginPage = pathname === '/login';
+        const isLoginPage = pathname === '/log-in';
+        const isSignUpPage = pathname === '/sign-up';
 
         return (
             <Menu pointing secondary={false} fixed={'top'} inverted>
                 <Container>
                     <Link to='/nearby-shops' className={isHomePage ? 'item active' : 'item'}>Nearby Shops</Link>
                     <Link to='/preferred-shops' className={isProfilePage ? 'item active' : 'item'}>My preferred Shops</Link>
-                    <Menu.Menu position='right'>
                         {
                             this.props.isAuthenticated
-                                ? <Menu.Item className='item' onClick={this.onLogoutClick}>Logout</Menu.Item>
-                                : <Link to='/login' className={isLoginPage ? 'item active' : 'item'}>Login</Link>
+                                ? <Menu.Menu position='right'>
+                                    {this.props.user.lastName} <Menu.Item className='item' onClick={this.onLogoutClick}>Logout</Menu.Item>
+                                </Menu.Menu>
+                                : <Menu.Menu position='right'>
+                                    <Link to='/log-in' className={isLoginPage ? 'item active' : 'item'}>Log in</Link>
+                                    <Link to='/sign-up' className={isSignUpPage ? 'item active' : 'item'}>Sign up</Link>
+                                </Menu.Menu>
                         }
-                    </Menu.Menu>
                 </Container>
             </Menu>
         );
@@ -37,8 +41,9 @@ class Header extends Component {
 }
 
 Header.propTypes = {
-    isAuthenticated: PropTypes.any,
-    handleLogout: PropTypes.func.isRequired
+    user : PropTypes.object,
+    isAuthenticated : PropTypes.any,
+    handleLogout : PropTypes.func.isRequired
 };
 
 export default withRouter(Header);
