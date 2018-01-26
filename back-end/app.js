@@ -10,45 +10,43 @@ const expressValidator = require('express-validator');
 const environment = process.env.NODE_ENV || 'development';
 const config = require(path.join(__dirname, `config/${environment}`));
 
-/* Controllers */
-const userController = require('./controllers/b2c/user-controller.js');
+/* get routes */
+const b2cRoutes = require('./routes/b2c');
 
-module.exports = environment => {
-    const app = express();
 
-    const allowedDomains = (environment === 'production') ? config.ALLOWED_DOMAINS : '*';
+const app = express();
 
-    /* prepare database credentials */
-    let userCredentials = null;
-    if(environment === 'production') {
-        userCredentials = `${config.DB_USER}:${config.DB_PASSWORD}@`;
-    } else {
-        userCredentials = '';
-    }
+const allowedDomains = (environment === 'production') ? config.ALLOWED_DOMAINS : '*';
 
-    /* connect to mongodb database */
-    const dbURI = `mongodb://${userCredentials}${config.DB_HOST}:${config.DB_PORT}/${config.DB_NAME}`;
-    require(path.join(__dirname, 'models'))(mongoose, dbURI, config.DEBUG);
+/* prepare database credentials */
+let userCredentials = null;
+if(environment === 'production') {
+    userCredentials = `${config.DB_USER}:${config.DB_PASSWORD}@`;
+} else {
+    userCredentials = '';
+}
 
-    /* configure global constants */
-    app.set('environment', environment);
-    app.set('secret', config.JWT_SECRET);
-    app.set('DEBUG', config.DEBUG);
+/* connect to mongodb database */
+const dbURI = `mongodb://${userCredentials}${config.DB_HOST}:${config.DB_PORT}/${config.DB_NAME}`;
+require(path.join(__dirname, 'models'))(mongoose, dbURI, config.DEBUG);
 
-    /* set up middlewares */
-    app.use(logger('dev'));
-    app.use(bodyParser.json({limit: '5mb'}));
-    app.use(bodyParser.urlencoded({limit: '5mb', extended: true}));
-    app.use(expressValidator());
-    app.use(allowCrossDomain(allowedDomains));
-    app.use(jsonHttpErrorHandler);
+/* configure global constants */
+app.set('environment', environment);
+app.set('secret', config.JWT_SECRET);
+app.set('DEBUG', config.DEBUG);
 
-    /* API */
-    app.post('/api/log-in', userController.POSTLogIn);
-    app.post('/api/sign-up', userController.POSTSignUp);
+/* set up middlewares */
+app.use(logger('dev'));
+app.use(bodyParser.json({limit: '5mb'}));
+app.use(bodyParser.urlencoded({limit: '5mb', extended: true}));
+app.use(expressValidator());
+app.use(allowCrossDomain(allowedDomains));
+app.use(jsonHttpErrorHandler);
 
-    return app;
-};
+/* set up APIs */
+app.use('/api/b2c', b2cRoutes);
+
+module.exports = app;
 
 function allowCrossDomain(domain) {
     return function(req, res, next) {
@@ -76,9 +74,7 @@ function jsonHttpErrorHandler(err, req, res, next) {
             res.status(200)
                 .json({
                     title: 'request invalid',
-                    // message: err.message,
                     success: 0
-                    // error: err.errors
                 });
             break;
         case 403:

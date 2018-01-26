@@ -69,34 +69,3 @@ export function logout() {
         type: LOGOUT
     };
 }
-
-function signUpRequest() {
-
-}
-
-function signUpSuccess(payload) {
-
-}
-
-function signUpFailure(error) {
-
-}
-
-export function signUp(data) {
-    const config = {
-        method: 'POST',
-        headers: {
-            Accept: "application/json",
-            "Content-Type": "application/json"
-        },
-        body: JSON.stringify(data)
-    };
-
-    return callApi(
-        "/api/sign-up",
-        config,
-        signUpRequest,
-        signUpSuccess,
-        signUpFailure
-    );
-}

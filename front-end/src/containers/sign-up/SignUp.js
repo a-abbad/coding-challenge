@@ -23,17 +23,38 @@ export default class SignUp extends Component {
                         <Form size='large'>
                             <Segment stacked>
                                 <Form.Input
-                                    // value={}
-                                    // onChange={(event, {value}) => {this.props.onChangeUsername(value)}}
+                                    value={this.props.firstName}
+                                    onChange={(event, {value}) => {this.props.onChangeFirstName(value)}}
                                     type="text"
-                                    placeholder='Username'
+                                    placeholder='First name'
                                     icon='user'
                                     iconPosition='left'
                                     fluid
+                                    name='firstName'
                                 />
                                 <Form.Input
-                                    // value={this.props.password}
-                                    // onChange={(event, {value}) => {this.props.onChangePassword(value)}}
+                                    value={this.props.lastName}
+                                    onChange={(event, {value}) => {this.props.onChangeLastName(value)}}
+                                    type="text"
+                                    placeholder='Last name'
+                                    icon='user'
+                                    iconPosition='left'
+                                    fluid
+                                    name='lastName'
+                                />
+                                <Form.Input
+                                    value={this.props.email}
+                                    onChange={(event, {value}) => {this.props.onChangeEmail(value)}}
+                                    type="text"
+                                    placeholder='E-mail'
+                                    icon='at'
+                                    iconPosition='left'
+                                    fluid
+                                    name='email'
+                                />
+                                <Form.Input
+                                    value={this.props.signUpPassword}
+                                    onChange={(event, {value}) => {this.props.onChangeSignUpPassword(value)}}
                                     type="password"
                                     placeholder='Password'
                                     icon='lock'
@@ -41,18 +62,19 @@ export default class SignUp extends Component {
                                     fluid
                                 />
                                 <Form.Input
-                                    // value={this.props.password}
-                                    // onChange={(event, {value}) => {this.props.onChangePassword(value)}}
+                                    value={this.props.signUpPasswordConfirmation}
+                                    onChange={(event, {value}) => {this.props.onChangeSignUpPasswordConfirmation(value)}}
                                     type="password"
                                     placeholder='Password confirmation'
                                     icon='repeat'
                                     iconPosition='left'
                                     fluid
                                 />
-                                <Button color='blue'
-                                        fluid
-                                        size='large'
-                                    // onClick={() => {this.props.onLogin(this.props.username, this.props.password)}}
+                                <Button
+                                    color='blue'
+                                    fluid
+                                    size='large'
+                                    onClick={() => {this.props.onSignUp(this.props.firstName, this.props.lastName, this.props.email, this.props.signUpPassword)}}
                                 >
                                     Sign Up
                                 </Button>

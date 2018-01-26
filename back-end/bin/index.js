@@ -1,9 +1,7 @@
-'use strict';
-
 const environment = process.env.NODE_ENV || 'development';
 
 const config = require('../config/' + environment + '.json');
-const app = require('../app')(environment);
+const app = require('../app');
 const makeServer = require('./make-server');
 
 const server = makeServer(app);

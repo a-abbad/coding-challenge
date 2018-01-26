@@ -6,8 +6,8 @@ import {changePassword, changeUsername, login} from '../../actions/auth';
 function mapStateToProps({auth}) {
     const isAuthenticated = true && auth.user;
     return {
-        username: auth.usernameInput,
-        password: auth.passwordInput,
+        username: auth.usernameInput ? auth.usernameInput : '',
+        password: auth.passwordInput ? auth.passwordInput : '',
         loggingIn: auth.loggingIn,
         loginError: auth.loginError,
         isAuthenticated
