@@ -26,13 +26,13 @@ class ShopCard extends Component {
                 <Card.Content extra>
                     <div className='ui two buttons'>
                         <Button
-                            onClick={() => {console.log('like shop by id => ' + shop._id)}}
+                            onClick={() => {this.props.onLikeShop(shop._id)}}
                             basic color='green' icon>
                             <Icon name='heart' />
                             {' '}Like
                         </Button>
                         <Button
-                            onClick={() => {console.log('dislike shop by id => ' + shop._id)}}
+                            onClick={() => {this.props.onDislikeShop(shop._id)}}
                             basic color='red' icon>
                             <Icon name='dislike outline' />
                             {' '}Dislike
