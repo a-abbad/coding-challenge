@@ -20,7 +20,27 @@ const schema = new Schema({
     password: {
         type: String,
         required: true
-    }
+    },
+    likedShops : [{
+        shop : {
+            type : Schema.Types.ObjectId,
+            ref: 'Shop'
+        },
+        dateTime : {
+            type: Date,
+            required: true
+        }
+    }],
+    dislikedShops : [{
+        shop : {
+            type : Schema.Types.ObjectId,
+            ref: 'Shop'
+        },
+        dateTime : {
+            type: Date,
+            required: true
+        }
+    }]
 }, {
     timestamps: true
 });

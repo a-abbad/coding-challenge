@@ -3,33 +3,37 @@ import PropTypes from 'prop-types'
 import { Image, Card, Icon, Button } from 'semantic-ui-react'
 
 class ShopCard extends Component {
-    shop = this.props.shop;
 
     render() {
+        let shop = this.props.shop;
         return (
             <Card>
                 <Card.Content textAlign='center'>
                     <Card.Header>
-                        {this.shop.name}
+                        {shop.name}
                     </Card.Header>
                     <Card.Meta>
-                        <Image src={this.shop.picture} />
+                        <Image src={shop.picture} />
                     </Card.Meta>
                     <Card.Description>
                         <Icon name='marker' />
-                        {this.shop.city}
+                        {shop.city}
                         <br/>
                         <Icon name='at' />
-                        {this.shop.email}
+                        {shop.email}
                     </Card.Description>
                 </Card.Content>
                 <Card.Content extra>
                     <div className='ui two buttons'>
-                        <Button basic color='green' icon>
+                        <Button
+                            onClick={() => {console.log('like shop by id => ' + shop._id)}}
+                            basic color='green' icon>
                             <Icon name='heart' />
                             {' '}Like
                         </Button>
-                        <Button basic color='red' icon>
+                        <Button
+                            onClick={() => {console.log('dislike shop by id => ' + shop._id)}}
+                            basic color='red' icon>
                             <Icon name='dislike outline' />
                             {' '}Dislike
                         </Button>

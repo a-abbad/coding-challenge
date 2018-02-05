@@ -42,6 +42,7 @@ app.use(bodyParser.urlencoded({limit: '5mb', extended: true}));
 app.use(expressValidator());
 app.use(allowCrossDomain(allowedDomains));
 app.use(jsonHttpErrorHandler);
+app.disable('etag');
 
 /* set up APIs */
 app.use('/api/b2c', b2cRoutes);
@@ -52,7 +53,7 @@ function allowCrossDomain(domain) {
     return function(req, res, next) {
         res.header('Access-Control-Allow-Origin', '*');
         res.header('Access-Control-Allow-Methods', 'GET, POST, PUT ,DELETE, OPTIONS, PATCH');
-        res.header('Access-Control-Allow-Headers', 'Cache-Control, Access-Control-Allow-Headers, Origin, Accept, X-Requested-With, Content-Type, Access-Control-Request-Method, Access-Control-Request-Headers, X-Access-Token');
+        res.header('Access-Control-Allow-Headers', 'Cache-Control, Access-Control-Allow-Headers, Origin, Accept, X-Requested-With, Content-Type, Access-Control-Request-Method, Access-Control-Request-Headers, X-Access-Token, token');
 
         if(req.method === 'OPTIONS') {
             res.status(200).end();
