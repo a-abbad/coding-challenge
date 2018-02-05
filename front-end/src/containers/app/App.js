@@ -20,8 +20,8 @@ export default class App extends Component {
                         handleLogout={() => {this.props.handleLogout()}}
                     />
                     <Switch>
-                        <Route exact path='/' component={NearbyShops} />
-                        <Route path='/nearby-shops' component={NearbyShops} />
+                        <PrivateRoute exact path='/' component={NearbyShops} isAuthenticated={this.props.isAuthenticated} />
+                        <PrivateRoute path='/nearby-shops' component={NearbyShops} isAuthenticated={this.props.isAuthenticated} />
                         <PrivateRoute path='/preferred-shops' component={PreferredShops} isAuthenticated={this.props.isAuthenticated} />
                         <Route path='/log-in' component={LogIn} />
                         <Route path='/sign-up' component={SignUp} />
