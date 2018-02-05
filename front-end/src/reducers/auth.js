@@ -1,5 +1,5 @@
 import {loadUserProfile} from '../utils/api-utils';
-import {FAILURE, REQUEST, SUCCESS} from '../utils/utils';
+import {FAILURE_, REQUEST_, SUCCESS_} from '../utils/utils';
 import {
     CHANGE_EMAIL_SIGN_UP_INPUT,
     CHANGE_FIRST_NAME_SIGN_UP_INPUT, CHANGE_LAST_NAME_SIGN_UP_INPUT, CHANGE_PASSWORD_CONFIRMATION_SIGN_UP_INPUT,
@@ -41,15 +41,15 @@ function initializeState() {
 
 export default function authReducer(state = initializeState(), action = {}) {
     switch (action.type) {
-        case REQUEST(LOGIN):
+        case REQUEST_(LOGIN):
             return { ...state, loggingIn: true };
-        case SUCCESS(LOGIN):
+        case SUCCESS_(LOGIN):
             return {
                 ...state,
                 user: action.user,
                 ...initialLogInState
             };
-        case FAILURE(LOGIN):
+        case FAILURE_(LOGIN):
             return {
                 ...state,
                 loggingIn: false,
@@ -75,12 +75,12 @@ export default function authReducer(state = initializeState(), action = {}) {
                 passwordInput: action.passwordInput,
                 logInDirtyFields: true
             };
-        case REQUEST(SIGN_UP):
+        case REQUEST_(SIGN_UP):
             return {
                 ...state,
                 signingUp: true
             };
-        case SUCCESS(SIGN_UP):
+        case SUCCESS_(SIGN_UP):
             return {
                 ...state,
                 user: action.user,
@@ -89,7 +89,7 @@ export default function authReducer(state = initializeState(), action = {}) {
                 signUpDirtyFields: false,
                 ...initialSignUpState
             };
-        case FAILURE(SIGN_UP):
+        case FAILURE_(SIGN_UP):
             return {
                 ...state,
                 user: null,
