@@ -33,6 +33,7 @@ export default class LogIn extends Component {
                                     value={this.props.username}
                                     onChange={(event, data) => {this.props.onChangeUsername(data.value)}}
                                     type="text"
+                                    name="email"
                                     placeholder='Username'
                                     icon='user'
                                     iconPosition='left'
@@ -42,6 +43,7 @@ export default class LogIn extends Component {
                                     value={this.props.password}
                                     onChange={(event, data) => {this.props.onChangePassword(data.value)}}
                                     type="password"
+                                    name="password"
                                     placeholder='Password'
                                     icon='lock'
                                     iconPosition='left'

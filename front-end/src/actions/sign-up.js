@@ -1,4 +1,4 @@
-import {callApi, decodeUserProfile, ID_TOKEN} from "../utils/api-utils";
+import {callApi, decodeUserProfile, prepareHeader} from "../utils/api-utils";
 import {
     CHANGE_EMAIL_SIGN_UP_INPUT,
     CHANGE_FIRST_NAME_SIGN_UP_INPUT,
@@ -7,8 +7,9 @@ import {
     CHANGE_PASSWORD_SIGN_UP_INPUT,
     LOGOUT
 } from "./types";
-import {FAILURE, REQUEST, SUCCESS} from "../utils/utils";
+import {FAILURE_, REQUEST_, SUCCESS_} from "../utils/utils";
 import {removeData, setData} from "../utils/storage-utils";
+import {ID_TOKEN} from "../utils/global";
 
 export function changeFirstName (firstName) {
     return {
@@ -47,7 +48,7 @@ export function changeSignUpPasswordConfirmation (signUpPasswordConfirmation) {
 
 function signUpRequest() {
     return {
-        type: REQUEST(LOGOUT)
+        type: REQUEST_(LOGOUT)
     };
 }
 
@@ -56,7 +57,7 @@ function signUpSuccess(payload) {
     setData(ID_TOKEN, idToken);
     const profile = decodeUserProfile(idToken);
     return {
-        type: SUCCESS(LOGOUT),
+        type: SUCCESS_(LOGOUT),
         user: profile.user
     };
 }
@@ -64,23 +65,19 @@ function signUpSuccess(payload) {
 function signUpFailure(error) {
     removeData(ID_TOKEN);
     return {
-        type: FAILURE(LOGOUT),
+        type: FAILURE_(LOGOUT),
         error
     };
 }
 
 export function signUp(data) {
     const config = {
-        method: 'POST',
-        headers: {
-            Accept: "application/json",
-            "Content-Type": "application/json"
-        },
+        ...prepareHeader('POST'),
         body: JSON.stringify(data)
     };
 
     return callApi(
-        "/api/sign-up",
+        "/api/b2c/sign-up",
         config,
         signUpRequest,
         signUpSuccess,

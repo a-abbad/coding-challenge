@@ -1,7 +1,8 @@
 import {CHANGE_PASSWORD_INPUT, CHANGE_USERNAME_INPUT, LOGIN, LOGOUT} from "./types";
-import {callApi, ID_TOKEN, decodeUserProfile} from "../utils/api-utils";
+import {callApi, decodeUserProfile, prepareHeader} from "../utils/api-utils";
 import {removeData, setData} from '../utils/storage-utils'
-import {REQUEST, SUCCESS, FAILURE} from "../utils/utils";
+import {REQUEST_, SUCCESS_, FAILURE_} from "../utils/utils";
+import {ID_TOKEN} from "../utils/global";
 
 export function changeUsername(usernameInput) {
     return {
@@ -19,7 +20,7 @@ export function changePassword(passwordInput) {
 
 function loginRequest() {
     return {
-        type: REQUEST(LOGIN)
+        type: REQUEST_(LOGIN)
     };
 }
 
@@ -28,7 +29,7 @@ function loginSuccess(payload) {
     setData(ID_TOKEN, idToken);
     const profile = decodeUserProfile(idToken);
     return {
-        type: SUCCESS(LOGIN),
+        type: SUCCESS_(LOGIN),
         user: profile.user
     };
 }
@@ -36,18 +37,14 @@ function loginSuccess(payload) {
 function loginFailure(error) {
     removeData(ID_TOKEN);
     return {
-        type: FAILURE(LOGIN),
+        type: FAILURE_(LOGIN),
         error
     };
 }
 
 export function login(email, password) {
     const config = {
-        method: 'POST',
-        headers: {
-            Accept: "application/json",
-            "Content-Type": "application/json"
-        },
+        ...prepareHeader('POST'),
         body: JSON.stringify({
             email,
             password
@@ -55,7 +52,7 @@ export function login(email, password) {
     };
 
     return callApi(
-        "/api/log-in",
+        "/api/b2c/log-in",
         config,
         loginRequest,
         loginSuccess,
